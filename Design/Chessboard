@@ -1,0 +1,45 @@
+// This is the text editor interface. 
+// Anything you type or change here will be seen by the other person in real time.
+public class Chessboard {
+    
+    public Node[][] board;
+    public enum Background {
+        White, Black
+    }
+    public class Node{
+        int x;
+        int y;
+        Background b;  // 0:white, 1:black
+        String chess;
+        
+        public Node(int x, int y, Background b){
+            this.x = x;
+            this.y = y; 
+            this.b = b;
+        }
+    }
+    
+    public Chessboard(){
+        board = new Node[8][8];
+        
+        for(int i=0; i<8; i++){
+           for(int j=0; j<8; j++){
+               if((i+j) / 2 == 0){
+                   board[i][j] = new Node(i, j, Background.White);
+               }
+               else{
+                   board[i][j] = new Node(i, j, Background.Black);
+               }
+               
+           }
+       }
+    }
+    
+
+    public static void main(String[] args) {
+        
+        Chessboard c = new Chessboard();
+        
+    }
+
+}
