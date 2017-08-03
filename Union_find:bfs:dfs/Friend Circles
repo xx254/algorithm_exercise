@@ -1,0 +1,51 @@
+public class Solution {
+    
+    // declare variable
+    int[] father;
+    
+    // union-find
+    private int find(int x){
+        if(father[x] == x){
+            return x;
+        }
+        father[x] = find(father[x]);
+        return father[x];
+    }
+    private void union(int i, int j){
+        int ri = find(i);
+        int rj = find(j);
+        if(ri != rj){
+            father[ri] = rj;
+        }
+    }
+    
+    // func
+    public int findCircleNum(int[][] M) {
+        father = new int[M.length];
+        
+        // init
+        for(int i=0; i<father.length; i++){
+            father[i] = i;
+        }
+        
+        int row = M.length;
+        int col = M[0].length;
+        for(int i=0; i<row; i++){
+            for(int j=i; j<col; j++){
+                if(M[i][j] == 1){
+                    union(i,j);
+                }
+            }
+        }
+        
+        //count
+        HashSet<Integer> h = new HashSet<>();
+        for(int i=0; i<father.length; i++){
+            int f = find(father[i]);
+            if(!h.contains(f)){
+                h.add(f);
+            }
+        }
+        return h.size();
+    }
+}
