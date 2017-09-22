@@ -1,4 +1,4 @@
-c class Demo {
+class Demo {
     public static boolean isInside(int[] a, int[] b, int[] in){
         if((a[0] < in[0] && in[0] < a[1]) || (b[0] < in[0] && in[0] < b[1])){
             return true;
