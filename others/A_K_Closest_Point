@@ -1,0 +1,88 @@
+//两种方法：1. PQ递增，长度随意，结果取前K个； 2. PQ递减，长度为k，结果倒序（好处是节约空间）
+/**
+ * Definition for a point.
+ * class Point {
+ *     int x;
+ *     int y;
+ *     Point() { x = 0; y = 0; }
+ *     Point(int a, int b) { x = a; y = b; }
+ * }
+ */
+
+// 第一种：PQ递减
+public class Solution {
+    
+    public int getDistance(Point p1, Point p2){
+        return (p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y);
+    }
+
+    public Point[] kClosest(Point[] points, Point origin, int k) {
+
+        PriorityQueue<Point> pq = new PriorityQueue<>(new Comparator<Point>() {
+            @Override
+            public int compare(Point o1, Point o2) {
+                int dis = getDistance(o2, origin) - getDistance(o1, origin);
+                if(dis == 0){
+                    dis = o2.x - o1.x;
+                }
+                if(dis == 0){
+                    dis = o2.y - o1.y;
+                }
+                return dis;
+            }
+        });
+
+        for(int i=0; i<points.length; i++){
+            pq.offer(points[i]);
+            if(pq.size() > k){
+                pq.poll();
+            }
+        }
+        
+        Point[] res = new Point[k];
+        int pos = k - 1;
+        while(!pq.isEmpty()){
+            res[pos] = pq.poll();
+            pos--;
+        }
+        
+        return res;
+    }
+}
+
+// 第二种：PQ递增
+public Point[] kClosest(Point[] points, Point origin, int k) {
+
+        PriorityQueue<Point> pq = new PriorityQueue<>(new Comparator<Point>() {
+            @Override
+            public int compare(Point o1, Point o2) {
+                int dis = getDistance(o1, origin) - getDistance(o2, origin);
+                if(dis == 0){
+                    dis = o1.x - o2.x;
+                }
+                if(dis == 0){
+                    dis = o1.y - o2.y;
+                }
+                return dis;
+            }
+        });
+
+        for(int i=0; i<points.length; i++){
+            pq.offer(points[i]);
+//            if(pq.size() > k){
+//                pq.poll();
+//            }
+        }
+
+        Point[] res = new Point[k];
+//        int pos = k - 1;
+//        while(!pq.isEmpty()){
+//            res[pos] = pq.poll();
+//            pos--;
+//        }
+        for(int i=0; i<k; i++){
+            res[i] = pq.poll();
+        }
+
+        return res;
+    }
