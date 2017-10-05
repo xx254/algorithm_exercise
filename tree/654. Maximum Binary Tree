@@ -1,0 +1,26 @@
+// 如果没有 start == end的判断，则当 start == end 的时候，maxIndex = start = end, 循环永远无法停止
+class Solution {
+    
+    public TreeNode build(int[] nums, int start, int end){
+        if(start == end || end > nums.length){
+            return null;
+        }
+        int maxIndex = start;
+        for(int i=start; i<end; i++){
+            if(nums[i] >= nums[maxIndex]){
+                maxIndex = i;
+            }
+        }
+        TreeNode root = new TreeNode(nums[maxIndex]);
+        root.left = build(nums, start, maxIndex);
+        root.right = build(nums, maxIndex+1, end);
+        
+        return root;
+    }
+           
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        TreeNode root = build(nums, 0, nums.length);
+        return root;
+        
+    }
+}
