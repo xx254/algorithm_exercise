@@ -25,3 +25,35 @@ class Solution {
         return res;
     }
 }
+
+
+//同理：515. Find Largest Value in Each Tree Row
+class Solution {
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if(root == null){
+            return res;
+        }
+        
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while(!q.isEmpty()){
+            int n = q.size();
+            int max = Integer.MIN_VALUE;
+            for(int i=0; i<n; i++){
+                TreeNode cur = q.poll();
+                if(cur.left != null){
+                    q.offer(cur.left);
+                }
+                if(cur.right != null){
+                    q.offer(cur.right);
+                }
+                if(cur.val > max){
+                    max = cur.val;
+                }
+            }
+            res.add(max);
+        }
+        return res;
+    }
+}
